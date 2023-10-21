@@ -1,0 +1,78 @@
+/* Reset some default styles */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f5f5f5;
+}
+
+/* Style the container */
+.container {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    text-align: center;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Style the header */
+h1 {
+    font-size: 36px;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+/* Style the form */
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.custom-file-upload {
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.custom-file-upload input[type="file"] {
+    display: none;
+}
+
+input[type="submit"] {
+    background-color: #121413;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 5px;
+    transition: background-color 0.2s;
+}
+
+/* Style the result section */
+#error-message {
+    color: red;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.transcription {
+    margin-top: 20px;
+    text-align: left;
+}
+
+.images .extracted-frame {
+    max-width: 100%;
+    margin-top: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
