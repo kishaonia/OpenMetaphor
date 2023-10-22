@@ -63,7 +63,7 @@
 
 </html> -->
 
-
+<!-- 
 <!DOCTYPE html>
 <html lang="en">
 
@@ -129,4 +129,144 @@
 
 </body>
 
+</html> -->
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OpenMetaphor</title>
+    <link rel="stylesheet" href="../static/style.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <h1>OpenMetaphor</h1>
+        <form action="/" method="post" enctype="multipart/form-data">
+            <input type="file" name="audio" accept=".flac, .m4a, .mp3, .mp4, .mpeg, .mpga, .oga, .ogg, .wav, .webm"
+                required>
+            <input type="submit" value="Transcribe">
+        </form>
+
+            <div id="result">
+            <div id="error-message" style="color: red;"></div>
+            <div id="transcription"></div>
+            <div id="images"></div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $("form").submit(function (e) {
+            e.preventDefault();
+            var formData = new FormData(this);
+
+            $.ajax({
+                url: '/',
+                type: 'POST',
+                data: formData,
+                success: function (response) {
+    if (response.transcription) {
+        $("#transcription").html('<h2>Transcription:</h2><p>' + response.transcription.replace(/\n/g, '<br>') + '</p>');
+        if (response.image_paths && response.image_paths.length) {
+            let imagesHtml = '<h2>Extracted Frames:</h2>';
+            response.image_paths.forEach(function(imagePath) {
+                imagesHtml += '<img src="' + imagePath + '" alt="Extracted Frame" style="max-width: 100%; margin-top: 10px;">';
+            });
+            $("#images").html(imagesHtml);
+        }
+        $("#error-message").text("");
+    } else {
+        $("#error-message").text("Error: " + response.error);
+    }
+}
+,
+                error: function (error) {
+                    $("#error-message").text("An unexpected error occurred.");
+                },
+                cache: false,
+                contentType: false,
+                processData: false
+            });
+        });
+    </script>
+</body>
+
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OpenMetaphor</title>
+    <link rel="stylesheet" href="../static/style.css">
+</head>
+
+<body>
+    <div class="container">
+        <h1>OpenMetaphor</h1>
+        
+        <form id="main-form" action="/" method="post" enctype="multipart/form-data">
+            <input type="file" name="audio" accept=".mp3,.wav,.flac,.m4a,.ogg,.oga,.opus,.weba,.mp4,.mpeg,.ogv,.webm,.3gp,.3g2,.avi,.mov,.wmv,.mkv" required>
+            Target Language: 
+            <select name="language">
+                {% for code, name in languages.items() %}
+                    <option value="{{ code }}">{{ name }}</option>
+                {% endfor %}
+            </select>
+            <input type="submit" value="Transcribe & Translate">
+        </form>
+
+        <div id="result">
+            <div id="error-message" style="color: red;"></div>
+            <div id="transcription"></div>
+            <div id="images"></div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $("#main-form").submit(function (e) {
+            e.preventDefault();
+            var formData = new FormData(this);
+
+            $.ajax({
+                url: '/',
+                type: 'POST',
+                data: formData,
+                success: function (response) {
+                    console.log(response); // log the entire response to the console
+
+                    if (response.transcription) {
+                        $("#transcription").html('<h2>Transcription:</h2><p>' + response.transcription.replace(/\n/g, '<br>') + '</p>');
+                        if (response.translation) {
+                            $("#transcription").append('<h2>Translation:</h2><p>' + response.translation.replace(/\n/g, '<br>') + '</p>');
+                        }
+
+                        if (response.image_paths && response.image_paths.length) {
+                            let imagesHtml = '<h2>Extracted Frames:</h2>';
+                            response.image_paths.forEach(function(imagePath) {
+                                imagesHtml += '<img src="' + imagePath + '" alt="Extracted Frame" style="width: 30%; margin-top: 10px;">';
+                            });
+                            $("#images").html(imagesHtml);
+                        }
+                        $("#error-message").text("");
+                    } else {
+                        $("#error-message").text("Error: " + response.error);
+                    }
+                },
+                error: function (error) {
+                    $("#error-message").text("An unexpected error occurred.");
+                },
+                cache: false,
+                contentType: false,
+                processData: false
+            });
+        });
+    </script>
+</body>
 </html>
